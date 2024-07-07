@@ -2,6 +2,7 @@ const express = require('express');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -14,10 +15,11 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     throw new Error('GOOGLE_APPLICATION_CREDENTIALS environment variable is not set');
 }
 
-console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+// Construct the absolute path to the service account key file
+const serviceAccountPath = path.resolve(__dirname, process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 // Require the service account key using the path from the environment variable
-const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+const serviceAccount = require(serviceAccountPath);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -60,6 +62,7 @@ app.get('/links/:platform', async (req, res) => {
   }
 });
 
+// Update link
 app.post('/update-link', async (req, res) => {
   try {
       const { platform, link } = req.body;
@@ -72,6 +75,7 @@ app.post('/update-link', async (req, res) => {
   }
 });
 
+// Delete link
 app.delete('/delete-link/:platform', async (req, res) => {
   try {
       const platform = req.params.platform.toLowerCase();
@@ -92,6 +96,7 @@ app.delete('/delete-link/:platform', async (req, res) => {
   }
 });
 
+// Add/Update link
 app.post('/links', async (req, res) => {
   try {
     const { platform, link } = req.body;
