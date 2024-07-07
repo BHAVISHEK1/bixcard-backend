@@ -15,8 +15,8 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     throw new Error('GOOGLE_APPLICATION_CREDENTIALS environment variable is not set');
 }
 
-// Construct the absolute path to the service account key file
-const serviceAccountPath = path.resolve(__dirname, process.env.GOOGLE_APPLICATION_CREDENTIALS);
+// Use the path from the environment variable
+const serviceAccountPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
 // Require the service account key using the path from the environment variable
 const serviceAccount = require(serviceAccountPath);
