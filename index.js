@@ -29,11 +29,24 @@ const userLinksRef = db.collection('userdata').doc('userlinks');
 app.use(cors());
 app.use(express.json());
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://bizcard-socials-abyadav.netlify.app'
+];
+
 app.use(cors({
-  origin: 'https://bizcard-socials-abyadav.netlify.app', // Allow only your frontend domain
+  origin: (origin, callback) => {
+    // Check if the incoming request's origin is in the allowedOrigins array
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
 
 
 // Fetch all links
