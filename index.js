@@ -4,21 +4,19 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load environment variables from .env file
+
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Ensure the GOOGLE_APPLICATION_CREDENTIALS environment variable is set
+
 if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     throw new Error('GOOGLE_APPLICATION_CREDENTIALS environment variable is not set');
 }
 
-// Use the path from the environment variable
 const serviceAccountPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-// Require the service account key using the path from the environment variable
 const serviceAccount = require(serviceAccountPath);
 
 admin.initializeApp({
