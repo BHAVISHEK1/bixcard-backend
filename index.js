@@ -29,6 +29,13 @@ const userLinksRef = db.collection('userdata').doc('userlinks');
 app.use(cors());
 app.use(express.json());
 
+app.use(cors({
+  origin: 'https://bizcard-socials-abyadav.netlify.app', // Allow only your frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
+
 // Fetch all links
 app.get('/links', async (req, res) => {
   try {
